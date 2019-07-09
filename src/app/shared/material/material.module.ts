@@ -1,7 +1,15 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { MzButtonModule, MzInputModule, MzValidationModule, MzNavbarModule, MzCheckboxModule } from 'ngx-materialize';
+import { 
+  MzButtonModule, 
+  MzSpinnerModule, 
+  MzInputModule, 
+  MzValidationModule, 
+  MzNavbarModule, 
+  MzCheckboxModule,
+  MzRadioButtonModule 
+} from 'ngx-materialize';
 
 @NgModule({
   declarations: [],
@@ -11,14 +19,18 @@ import { MzButtonModule, MzInputModule, MzValidationModule, MzNavbarModule, MzCh
     MzInputModule,
     MzValidationModule,
     MzNavbarModule,
-    MzCheckboxModule
+    MzCheckboxModule,
+    MzSpinnerModule,
+    MzRadioButtonModule
   ],
   exports: [
     MzButtonModule,
     MzInputModule,
     MzValidationModule,
     MzNavbarModule,
-    MzCheckboxModule
+    MzCheckboxModule,
+    MzSpinnerModule,
+    MzRadioButtonModule
   ]
 })
 export class MaterialModule { }

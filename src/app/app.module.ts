@@ -5,22 +5,25 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './core/header/header.component';
 import { FooterComponent } from './core/footer/footer.component';
-import { GiphyInHighlightComponent } from './module/home/giphy-in-highlight/giphy-in-highlight.component';
 
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 import { MaterialModule } from './shared/material/material.module';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
+
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
-    FooterComponent,
-    GiphyInHighlightComponent
+    FooterComponent
   ],
   imports: [
+    FormsModule,
     BrowserModule,
+    FontAwesomeModule,
     BrowserAnimationsModule,
     NoopAnimationsModule,
     MaterialModule,
