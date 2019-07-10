@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 
-import { faPaperPlane  } from '@fortawesome/free-solid-svg-icons';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+
+import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-upload-gif',
@@ -9,11 +12,18 @@ import { faPaperPlane  } from '@fortawesome/free-solid-svg-icons';
 })
 export class UploadGifComponent implements OnInit {
 
+  // icon
   faPaperPlane = faPaperPlane;
 
-  constructor() { }
+  // variavel form
+  gifForm: FormGroup;
+
+  constructor(
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit() {
+    this.buildForm();
     // ************************ Drag and drop ***************** //
     let dropArea = document.getElementById("drop-area")
 
@@ -117,5 +127,34 @@ export class UploadGifComponent implements OnInit {
       xhr.send(formData)
     }
   }
+
+  // messagem de erro
+  errorMessageResources = {
+    key: {
+      required: 'A chave de compartilhamento é necessária',
+      minlength: 'Sua chave deve conter pelo menos 4 caracteres',
+      maxlength: 'Não pode ser maior que 32 caracteres',
+    }
+  };
+
+  // instância do form
+  buildForm() {
+    this.gifForm = this.formBuilder.group({
+      // Tipo de visualização definida, entre pública geral, ou privada restrita
+      viewPrivate: [false, Validators.required],
+      // caso seja privado
+      key: ['', Validators.compose([
+          Validators.required,
+          Validators.minLength(4),
+          Validators.maxLength(32)
+        ])
+      ]
+    });
+  }
+
+  onSubmit(data) {
+
+  }
+
 
 }

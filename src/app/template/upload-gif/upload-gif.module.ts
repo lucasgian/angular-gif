@@ -7,6 +7,7 @@ import { UploadGifComponent } from './upload-gif.component';
 import { MaterialModule } from '../../shared/material/material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [UploadGifComponent],
@@ -14,7 +15,9 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
     CommonModule,
     UploadGifRoutingModule,
     MaterialModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    ReactiveFormsModule,
+    FormsModule
   ]
 })
 export class UploadGifModule { }

@@ -1,3 +1,17 @@
+.icon-background {
+  z-index: -1;
+  padding: 58px 0;
+}
+
+.center-horizontal-vertical {
+  padding: 70px 0;
+}
+
+.not-view-mobile {
+  margin-top:0.5em;
+}
+
+
 body {
     font-family: sans-serif;
   }
@@ -13,15 +27,25 @@ body {
   }
   .drog-and-drop{
     margin-left: 1em !important;
+    cursor: move;
+  }
+  .file-update {
+    margin-left: 2em !important;
+    cursor: pointer;
   }
   @media only screen and (max-width: 600px) {
     .drog-and-drop{
-        margin-top: 1em !important;
-        margin-left: 0px !important;
+      margin-left: 2em !important;
+    }
+    .file-update {
+      margin-left: 2em !important;
+    }
+    .not-view-mobile {
+      display: none;
     }
   }
   #drop-area {
-    border: 2px dashed #ccc;
+    border: 2px dashed black;
     border-radius: 20px;
     max-width: 480px;
     min-width: 280px;

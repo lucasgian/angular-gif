@@ -1,39 +1,106 @@
-<div class="row container">
-    <div id="drop-area" class="col s4">
-        <form class="my-form">
-            <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-            <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
-            <label class="button" for="fileElem">Select some files</label>
-        </form>
-        <progress id="progress-bar" max=100 value=0></progress>
-        <div id="gallery"></div>
-    </div>
-
-    <div id="drop-area" class="drog-and-drop col s4">
-        <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-        <progress id="progress-bar" max=100 value=0></progress>
-        <div id="gallery"></div>
-    </div>
-</div>
-
 <div class="container">
-    <mz-radio-button-container>
-        <input mz-radio-button [label]="'Private'" [withGap]="true" id="radio-button-id" name="radio-group" type="radio">
-        <input mz-radio-button [label]="'Public'" [withGap]="true" id="radio-button-id" name="radio-group" type="radio">
-    </mz-radio-button-container>
-
-    <button mz-button>
-        <div style="text-align:center">
-            <fa-icon [icon]="faPaperPlane"></fa-icon>
-            Send
+    <div class="row">
+        <div class="col s12 m8 l8">
+            <blockquote style="border-color: black">
+                <h5>
+                    Compartilhe suas gifs favitas conosco
+                </h5>
+            </blockquote>
         </div>
-    </button>
+        <div class="col s2">
+            <i mz-icon class="not-view-mobile" [align]="'left'" [icon]="'insert_emoticon'" [size]="'small'">
+            </i>
+        </div>
+    </div>
+    <div class="row">
+        <div id="drop-area" class="file-update col s4">
+            <form class="my-form">
+
+                <div class="row">
+                    <div class="col s4">
+                        <i mz-icon [align]="'center'" class="icon-background red-text" [icon]="'image_search'" [size]="'medium'">
+                        </i>
+                    </div>
+                    <div class="col s8 center-horizontal-vertical">
+                        <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
+                        <label class="btn" for="fileElem">Pegue sua gif</label>
+                    </div>
+                </div>
+
+            </form>
+            <!-- 
+            <progress id="progress-bar" max=100 value=0></progress>
+            <div id="gallery"></div>
+            -->
+        </div>
+        <div id="drop-area" class="drog-and-drop col s4">
+            <div class="row">
+                <div class="col s4">
+                    <i mz-icon [align]="'center'" class="icon-background red-text" [icon]="'texture'" [size]="'medium'">
+                    </i>
+                </div>
+                <div class="col s8 center-horizontal-vertical">
+                    <p>Arraste sua gif aqui</p>
+                </div>
+                <div id="gallery"></div>
+            </div>
+        </div>
+    </div>
+
+    <blockquote style="border-color: black">
+        <h5>
+            Visibilidade do arquivo
+        </h5>
+    </blockquote>
+
+    <form [formGroup]="gifForm" (ngSubmit)="onSubmit(gifForm.value)" novalidate>
+
+        <mz-radio-button-container>
+
+            <div class="row">
+                <mz-radio-button-container class="col s12 m3">
+                    <input mz-radio-button id="radio-button-private" (click)="bottomSheetModal.openModal()"
+                        formControlName="viewPrivate" name="viewPrivate" type="radio" value="true" [label]="'Privado'"
+                        [withGap]="true">
+                </mz-radio-button-container>
+                <mz-radio-button-container class="col s12 m3">
+                    <input mz-radio-button id="radio-button-public" formControlName="viewPrivate" name="viewPrivate"
+                        type="radio" value="false" [label]="'Público'" [withGap]="true">
+                </mz-radio-button-container>
+            </div>
+
+        </mz-radio-button-container>
+
+        <button class="red" mz-button>
+            <div style="text-align:center">
+                <fa-icon [icon]="faPaperPlane"></fa-icon>
+                Enviar
+            </div>
+        </button>
+
+        <!-- [init:modal] Definição de chave do acesso -->
+        <mz-modal #bottomSheetModal>
+            <mz-modal-header>
+                <h4>Defina uma chave de acesso</h4>
+            </mz-modal-header>
+            <mz-modal-content>
+
+                <mz-input-container class="col s12 m6">
+                    <input mz-input mz-validation required id="input-firstname" formControlName="key" type="text"
+                        [errorMessageResource]="errorMessageResources.key" [label]="'Chave de acesso'" />
+                </mz-input-container>
+
+
+            </mz-modal-content>
+            <mz-modal-footer>
+                <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
+                <button mz-button [flat]="true" mz-modal-close>Salvar</button>
+            </mz-modal-footer>
+        </mz-modal>
+        <!-- [end:modal] Definição de chave do acesso -->
+        <br>
+
+    </form>
 </div>
 
 <br>
-<!--
-<div class="note"><strong>Note: I've Removed the ability to actually upload files (it will error out silently since
-        there is no error handler, so it'll still appear to work) because you guys were constantly filling up my
-        Cloudinary account. Please <a href="https://cloudinary.com/invites/lpov9zyyucivvxsnalc5/j6iiupngdmwwwqspjtml">create
-            your own account</a> and replace the "joezim007" and "ujpu6gyk" bits in the JavaScript with your own
-        account's information.</strong></div> -->

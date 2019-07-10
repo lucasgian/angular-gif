@@ -9,9 +9,6 @@ import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
   imports: [
     CommonModule,
     FontAwesomeModule
-  ],
-  export: [
-    FontAwesomeModule
   ]
 })
 export class FontAwesomeModule { }

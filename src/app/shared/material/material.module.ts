@@ -8,7 +8,10 @@ import {
   MzValidationModule, 
   MzNavbarModule, 
   MzCheckboxModule,
-  MzRadioButtonModule 
+  MzRadioButtonModule,
+  MzModalModule,
+  MzIconModule, 
+  MzIconMdiModule
 } from 'ngx-materialize';
 
 @NgModule({
@@ -21,7 +24,10 @@ import {
     MzNavbarModule,
     MzCheckboxModule,
     MzSpinnerModule,
-    MzRadioButtonModule
+    MzRadioButtonModule,
+    MzModalModule,
+    MzIconModule, 
+    MzIconMdiModule
   ],
   exports: [
     MzButtonModule,
@@ -30,7 +36,10 @@ import {
     MzNavbarModule,
     MzCheckboxModule,
     MzSpinnerModule,
-    MzRadioButtonModule
+    MzRadioButtonModule,
+    MzModalModule,
+    MzIconModule, 
+    MzIconMdiModule
   ]
 })
 export class MaterialModule { }
