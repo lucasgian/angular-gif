@@ -1,23 +1,15 @@
 import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import { UploadGifRoutingModule } from './upload-gif-routing.module';
 import { UploadGifComponent } from './upload-gif.component';
 
-import { MaterialModule } from '../../shared/material/material.module';
-import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
-
-import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { BasicModulesImportModule } from '../../core/basic-modules-import/basic-modules-import.module';
 
 @NgModule({
   declarations: [UploadGifComponent],
   imports: [
-    CommonModule,
     UploadGifRoutingModule,
-    MaterialModule,
-    FontAwesomeModule,
-    ReactiveFormsModule,
-    FormsModule
+    BasicModulesImportModule
   ]
 })
 export class UploadGifModule { }

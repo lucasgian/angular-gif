@@ -8,6 +8,7 @@ const routes: Routes = [
   //{ path: 'termo-de-privacidade', loadChildren: './terms-private/terms-private.module#TermsPrivateModule' },
   { path: '', loadChildren: './template/home/home.module#HomeModule' },
   { path: 'upload', loadChildren: './template/upload-gif/upload-gif.module#UploadGifModule' },
+  { path: 'create', loadChildren: './template/create-gif/create-gif.module#CreateGifModule' },
 
   { path: '**', redirectTo: 'not-found' },
 ];

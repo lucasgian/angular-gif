@@ -4,13 +4,12 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
-
 @Component({
-  selector: 'app-upload-gif',
-  templateUrl: './upload-gif.component.html',
-  styleUrls: ['./upload-gif.component.scss']
+  selector: 'app-create-gif',
+  templateUrl: './create-gif.component.html',
+  styleUrls: ['./create-gif.component.scss']
 })
-export class UploadGifComponent implements OnInit {
+export class CreateGifComponent implements OnInit {
 
   // icon
   faPaperPlane = faPaperPlane;
@@ -144,10 +143,10 @@ export class UploadGifComponent implements OnInit {
       viewPrivate: [false, Validators.required],
       // caso seja privado
       key: ['', Validators.compose([
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(32)
-        ])
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(32)
+      ])
       ]
     });
   }
@@ -155,6 +154,5 @@ export class UploadGifComponent implements OnInit {
   onSubmit(data) {
 
   }
-
 
 }
