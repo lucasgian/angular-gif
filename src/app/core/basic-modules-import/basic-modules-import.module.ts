@@ -5,6 +5,7 @@ import { MaterialModule } from '../../shared/material/material.module';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [],
@@ -13,14 +14,16 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule
   ],
   exports: [
     CommonModule,
     ReactiveFormsModule,
     FormsModule,
     MaterialModule,
-    FontAwesomeModule
+    FontAwesomeModule,
+    HttpClientModule
   ]
 })
 export class BasicModulesImportModule { }
