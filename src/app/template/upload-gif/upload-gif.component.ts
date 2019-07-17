@@ -1,9 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { HttpClient } from '@angular/common/http';
 
-import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { MzToastService } from 'ngx-materialize';
+
+// variavel global
+import { info } from '../../../environments/info';
 
 @Component({
   selector: 'app-upload-gif',
@@ -12,121 +17,42 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 })
 export class UploadGifComponent implements OnInit {
 
+  // variaveis de manipulação das imagens
+  imgURL: any;
+  message: string;
+  selectedFile: File = null;
+  imagePath;
+
   // icon
   faPaperPlane = faPaperPlane;
 
   // variavel form
   gifForm: FormGroup;
 
+  // variavel de carregamento
+  loading: boolean = false;
+
+  // variavel para o link de compartilhamento da gif
+  accessLink: string = "";
+
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private http: HttpClient,
+    private toastService: MzToastService
   ) { }
 
   ngOnInit() {
     this.buildForm();
-    // ************************ Drag and drop ***************** //
-    let dropArea = document.getElementById("drop-area")
-
-      // Prevent default drag behaviors
-      ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName, preventDefaults, false)
-        document.body.addEventListener(eventName, preventDefaults, false)
-      })
-
-      // Highlight drop area when item is dragged over it
-      ;['dragenter', 'dragover'].forEach(eventName => {
-        dropArea.addEventListener(eventName, highlight, false)
-      })
-
-      ;['dragleave', 'drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName, unhighlight, false)
-      })
-
-    // Handle dropped files
-    dropArea.addEventListener('drop', handleDrop, false)
-
-    function preventDefaults(e) {
-      e.preventDefault()
-      e.stopPropagation()
-    }
-
-    function highlight(e) {
-      dropArea.classList.add('highlight')
-    }
-
-    function unhighlight(e) {
-      dropArea.classList.remove('active')
-    }
-
-    function handleDrop(e) {
-      var dt = e.dataTransfer
-      var files = dt.files
-
-      handleFiles(files)
-    }
-
-    let uploadProgress = []
-    let progressBar = document.getElementById('progress-bar')
-
-    function initializeProgress(numFiles) {
-      progressBar.value = 0
-      uploadProgress = []
-
-      for (let i = numFiles; i > 0; i--) {
-        uploadProgress.push(0)
-      }
-    }
-
-    function updateProgress(fileNumber, percent) {
-      uploadProgress[fileNumber] = percent
-      let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length
-      console.debug('update', fileNumber, percent, total)
-      progressBar.value = total
-    }
-
-    function handleFiles(files) {
-      files = [...files]
-      initializeProgress(files.length)
-      files.forEach(uploadFile)
-      files.forEach(previewFile)
-    }
-
-    function previewFile(file) {
-      let reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onloadend = function () {
-        let img = document.createElement('img')
-        img.src = reader.result;
-        document.getElementById('gallery').appendChild(img)
-      }
-    }
-
-    function uploadFile(file, i) {
-      var url = 'https://api.cloudinary.com/v1_1/joezimim007/image/upload'
-      var xhr = new XMLHttpRequest()
-      var formData = new FormData()
-      xhr.open('POST', url, true)
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-
-      // Update progress (can be used to show progress indicator)
-      xhr.upload.addEventListener("progress", function (e) {
-        updateProgress(i, (e.loaded * 100.0 / e.total) || 100)
-      })
-
-      xhr.addEventListener('readystatechange', function (e) {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          updateProgress(i, 100) // <- Add this
-        }
-        else if (xhr.readyState == 4 && xhr.status != 200) {
-          // Error. Inform the user
-        }
-      })
-
-      formData.append('upload_preset', 'ujpu6gyk')
-      formData.append('file', file)
-      xhr.send(formData)
-    }
   }
+
+  showToast() {
+    this.toastService.show('Gif compartilhada com sucesso :)', 5000, 'green');
+  }
+
+  errorToast() {
+    this.toastService.show('Puts, tenta de novo :(', 5000, 'red');
+  }
+
 
   // messagem de erro
   errorMessageResources = {
@@ -141,20 +67,96 @@ export class UploadGifComponent implements OnInit {
   buildForm() {
     this.gifForm = this.formBuilder.group({
       // Tipo de visualização definida, entre pública geral, ou privada restrita
-      viewPrivate: [false, Validators.required],
+      visibility: [true, Validators.required],
       // caso seja privado
       key: ['', Validators.compose([
-          Validators.required,
-          Validators.minLength(4),
-          Validators.maxLength(32)
-        ])
-      ]
+        Validators.required,
+        Validators.minLength(4),
+        Validators.maxLength(32)
+      ])
+      ],
+      dateLimit: ['', Validators.required]
+    });
+  }
+
+  initLoad() {
+    window.scrollTo(0, 0);
+    this.loading = true;
+    $(document).ready(function () {
+      $("body").css("background-color", 'rgba(10,23,55,0.5)');
+    });
+  }
+
+  endLoad() {
+    this.loading = false;
+    $(document).ready(function () {
+      $("body").css("background-color", 'rgba(255, 255, 255, 1)');
     });
   }
 
   onSubmit(data) {
 
+    this.initLoad();
+
+    console.log(data);
+    if (this.selectedFile !== null && this.selectedFile !== undefined) { //gif é o obrigatorio
+      data.file = this.imgURL;
+
+      this.http.post(info.api + '/v1/files/gifs', data).subscribe(
+        response => {
+          console.log(' Cadastro completo com sucesso! ', response);
+          let auxResponse: any = response;
+          this.accessLink = info.url + '/your/' + auxResponse.link;
+          this.endLoad();
+          this.showToast();
+        },
+        err => {
+          console.log('Error occured: ', err);
+          this.endLoad();
+          this.errorToast();
+        }
+      );
+
+    } else {
+      this.errorToast();
+    }
   }
 
+
+  cancelKey() {
+    this.gifForm.value.key = '';
+  }
+  confirmKey() {
+    this.gifForm.value.visibility = false;
+  }
+
+
+  // Função de pré visualizar as imagens selecionadas
+  preview(files) {
+    this.message = '';
+    if (files.length === 0) {
+      this.imgURL = null;
+      return;
+    }
+
+    const mimeType = files[0].type;
+    if (mimeType.match(/image\/*/) == null) {
+      this.selectedFile = null;
+      this.message = 'Apenas imagens são suportadas.';
+      return;
+    }
+
+    const reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = _event => {
+      this.imgURL = reader.result;
+    };
+  }
+
+  // Função para pegar a imagem selecionado
+  onFileChanged(event) {
+    this.selectedFile = event.target.files[0];
+  }
 
 }

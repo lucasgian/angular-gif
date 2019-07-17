@@ -1,5 +1,6 @@
 {
   "name": "deskfy-ui-angular",
+  "author": "Gian Fonseca",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",

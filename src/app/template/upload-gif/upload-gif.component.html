@@ -1,4 +1,13 @@
+<mz-spinner *ngIf="loading" style="position: absolute; margin-left: 40%; margin-top: 50%;" [color]="'blue'" [size]="'big'">
+</mz-spinner>
+
 <div class="container">
+    <blockquote style="border-color: red" *ngIf="accessLink">
+        <p style="color: red">
+            {{ this.accessLink }}
+        </p>
+    </blockquote>
+
     <div class="row">
         <div class="col s12 m8 l8">
             <blockquote style="border-color: black">
@@ -12,95 +21,105 @@
             </i>
         </div>
     </div>
-    <div class="row">
-        <div id="drop-area" class="file-update col s4">
-            <form class="my-form">
-
-                <div class="row">
-                    <div class="col s4">
-                        <i mz-icon [align]="'center'" class="icon-background red-text" [icon]="'image_search'" [size]="'medium'">
-                        </i>
-                    </div>
-                    <div class="col s8 center-horizontal-vertical">
-                        <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
-                        <label class="btn" for="fileElem">Pegue sua gif</label>
-                    </div>
-                </div>
-
-            </form>
-            <!-- 
-            <progress id="progress-bar" max=100 value=0></progress>
-            <div id="gallery"></div>
-            -->
+    <div>
+        <div class="col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group">
+                <label for="InputViewProduct">Adicionar Imagem:</label>
+            </div>
+            <img src="assets/images/defaultImage.jpg" class="img-thumbnail img-fluid" *ngIf="!selectedFile" />
+            <img [src]="imgURL" style="max-height: 210px;" class="img-thumbnail mx-auto d-block" *ngIf="imgURL" />
         </div>
-        <div id="drop-area" class="drog-and-drop col s4">
+    </div>
+    <div class="row">
+        <div id="drop-area" class="file-update col s8">
+
             <div class="row">
                 <div class="col s4">
-                    <i mz-icon [align]="'center'" class="icon-background red-text" [icon]="'texture'" [size]="'medium'">
+                    <i mz-icon [align]="'center'" class="icon-background red-text" [icon]="'image_search'" [size]="'medium'">
                     </i>
                 </div>
                 <div class="col s8 center-horizontal-vertical">
-                    <p>Arraste sua gif aqui</p>
+                    <input type="file" #file class="custom-file-input" style="display: none;" id="inputGroupFile04"
+                        lang="en" (change)="
+                                        onFileChanged($event);
+                                        preview(file.files)
+                                    "
+                        accept="image/*" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());">
+                    <label class="btn custom-file-label form-control" id="txt-ellipses" for="inputGroupFile04">Pegue
+                        sua gif</label>
                 </div>
-                <div id="gallery"></div>
             </div>
         </div>
     </div>
 
-    <blockquote style="border-color: black">
-        <h5>
-            Visibilidade do arquivo
-        </h5>
-    </blockquote>
 
     <form [formGroup]="gifForm" (ngSubmit)="onSubmit(gifForm.value)" novalidate>
+        <blockquote style="border-color: black">
+            <h5>
+                Data de expiração
+            </h5>
+        </blockquote>
+
+        <mz-input-container class="col s12 m4">
+            <i mz-icon-mdi mz-input-prefix [icon]="'calendar'">
+            </i>
+            <input mz-input [validate]="true" style="max-width: 15em;" [dataError]="'Date is invalid'" [dataSuccess]="'Date is valid'"
+                id="date" formControlName="dateLimit" type="date">
+        </mz-input-container>
+
+
+        <blockquote style="border-color: black">
+            <h5>
+                Visibilidade do arquivo
+            </h5>
+        </blockquote>
 
         <mz-radio-button-container>
 
             <div class="row">
                 <mz-radio-button-container class="col s12 m3">
                     <input mz-radio-button id="radio-button-private" (click)="bottomSheetModal.openModal()"
-                        formControlName="viewPrivate" name="viewPrivate" type="radio" value="true" [label]="'Privado'"
+                        formControlName="visibility" name="visibility" type="radio" value="false" [label]="'Privado'"
                         [withGap]="true">
                 </mz-radio-button-container>
                 <mz-radio-button-container class="col s12 m3">
-                    <input mz-radio-button id="radio-button-public" formControlName="viewPrivate" name="viewPrivate"
-                        type="radio" value="false" [label]="'Público'" [withGap]="true">
+                    <input mz-radio-button id="radio-button-public" formControlName="visibility" name="visibility" type="radio"
+                        value="true" [label]="'Público'" [withGap]="true">
                 </mz-radio-button-container>
             </div>
 
         </mz-radio-button-container>
 
-        <button class="red" mz-button>
+        <button class="red" mz-button type="submit">
             <div style="text-align:center">
                 <fa-icon [icon]="faPaperPlane"></fa-icon>
                 Enviar
             </div>
         </button>
 
-        <!-- [init:modal] Definição de chave do acesso -->
-        <mz-modal #bottomSheetModal>
-            <mz-modal-header>
-                <h4>Defina uma chave de acesso</h4>
-            </mz-modal-header>
-            <mz-modal-content>
-
-                <mz-input-container class="col s12 m6">
-                    <input mz-input mz-validation required id="input-firstname" formControlName="key" type="text"
-                        [errorMessageResource]="errorMessageResources.key" [label]="'Chave de acesso'" />
-                </mz-input-container>
-
-
-            </mz-modal-content>
-            <mz-modal-footer>
-                <button mz-button [flat]="true" mz-modal-close>Cancelar</button>
-                <button mz-button [flat]="true" mz-modal-close>Salvar</button>
-            </mz-modal-footer>
-        </mz-modal>
-        <!-- [end:modal] Definição de chave do acesso -->
-        <br>
-
     </form>
-</div>
 
+    <br>
+</div>
 <br>
+
+<!-- [init:modal] Definição de chave do acesso -->
+<mz-modal #bottomSheetModal style="padding-left: -1em;" class="col s12 m6">
+    <mz-modal-header>
+        <h4>Defina uma chave de acesso</h4>
+    </mz-modal-header>
+    <mz-modal-content>
+        <form [formGroup]="gifForm" novalidate>
+            <mz-input-container>
+                <input mz-input mz-validation required id="input-firstname" formControlName="key" type="text"
+                    [errorMessageResource]="errorMessageResources.key" [label]="'Chave de acesso'" />
+            </mz-input-container>
+        </form>
+
+    </mz-modal-content>
+    <mz-modal-footer>
+        <button mz-button [flat]="true" (click)="cancelKey();" mz-modal-close>Cancelar</button>
+        <button mz-button [flat]="true" (click)="confirmKey();" mz-modal-close>Salvar</button>
+    </mz-modal-footer>
+</mz-modal>
+<!-- [end:modal] Definição de chave do acesso -->
