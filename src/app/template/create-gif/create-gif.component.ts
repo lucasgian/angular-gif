@@ -4,6 +4,11 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 
+import { HttpClient } from '@angular/common/http';
+
+// variavel global
+import { info } from '../../../environments/info';
+
 @Component({
   selector: 'app-create-gif',
   templateUrl: './create-gif.component.html',
@@ -11,120 +16,33 @@ import { AbstractControl, FormArray, FormBuilder, FormGroup, Validators } from '
 })
 export class CreateGifComponent implements OnInit {
 
+  // variaveis de manipulação das imagens
+  imgURL: any;
+  message: string;
+  selectedFile: File = null;
+  imagePath;
+
   // icon
   faPaperPlane = faPaperPlane;
 
   // variavel form
   gifForm: FormGroup;
 
+  // variavel de carregamento
+  loading: boolean = false;
+
+  // variavel para o link de compartilhamento da gif
+  accessLink: string = "";
+
+
   constructor(
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private http: HttpClient
   ) { }
 
   ngOnInit() {
     this.buildForm();
-    // ************************ Drag and drop ***************** //
-    let dropArea = document.getElementById("drop-area")
 
-      // Prevent default drag behaviors
-      ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName, preventDefaults, false)
-        document.body.addEventListener(eventName, preventDefaults, false)
-      })
-
-      // Highlight drop area when item is dragged over it
-      ;['dragenter', 'dragover'].forEach(eventName => {
-        dropArea.addEventListener(eventName, highlight, false)
-      })
-
-      ;['dragleave', 'drop'].forEach(eventName => {
-        dropArea.addEventListener(eventName, unhighlight, false)
-      })
-
-    // Handle dropped files
-    dropArea.addEventListener('drop', handleDrop, false)
-
-    function preventDefaults(e) {
-      e.preventDefault()
-      e.stopPropagation()
-    }
-
-    function highlight(e) {
-      dropArea.classList.add('highlight')
-    }
-
-    function unhighlight(e) {
-      dropArea.classList.remove('active')
-    }
-
-    function handleDrop(e) {
-      var dt = e.dataTransfer
-      var files = dt.files
-
-      handleFiles(files)
-    }
-
-    let uploadProgress = []
-    let progressBar = document.getElementById('progress-bar')
-
-    function initializeProgress(numFiles) {
-      progressBar.value = 0
-      uploadProgress = []
-
-      for (let i = numFiles; i > 0; i--) {
-        uploadProgress.push(0)
-      }
-    }
-
-    function updateProgress(fileNumber, percent) {
-      uploadProgress[fileNumber] = percent
-      let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length
-      console.debug('update', fileNumber, percent, total)
-      progressBar.value = total
-    }
-
-    function handleFiles(files) {
-      files = [...files]
-      initializeProgress(files.length)
-      files.forEach(uploadFile)
-      files.forEach(previewFile)
-    }
-
-    function previewFile(file) {
-      let reader = new FileReader()
-      reader.readAsDataURL(file)
-      reader.onloadend = function () {
-        let img = document.createElement('img')
-        img.src = reader.result;
-        document.getElementById('gallery').appendChild(img)
-      }
-    }
-
-    function uploadFile(file, i) {
-      var url = 'https://api.cloudinary.com/v1_1/joezimim007/image/upload'
-      var xhr = new XMLHttpRequest()
-      var formData = new FormData()
-      xhr.open('POST', url, true)
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest')
-
-      // Update progress (can be used to show progress indicator)
-      xhr.upload.addEventListener("progress", function (e) {
-        updateProgress(i, (e.loaded * 100.0 / e.total) || 100)
-      })
-
-      xhr.addEventListener('readystatechange', function (e) {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          updateProgress(i, 100) // <- Add this
-        }
-        else if (xhr.readyState == 4 && xhr.status != 200) {
-          // Error. Inform the user
-        }
-      })
-
-      formData.append('upload_preset', 'ujpu6gyk')
-      formData.append('file', file)
-      xhr.send(formData)
-    }
   }
 
   // messagem de erro
@@ -147,12 +65,67 @@ export class CreateGifComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(32)
       ])
-      ]
+      ],
+      initVideo: [0, Validators.required],
+      cutVideo: [0, Validators.required]
     });
   }
 
   onSubmit(data) {
 
+    console.log(data);
+    if (this.selectedFile !== null && this.selectedFile !== undefined) { //gif é o obrigatorio
+      data.file = this.imgURL;
+
+      this.http.post(info.api + 'v1/files/create/gifs', data).subscribe(
+        response => {
+          console.log(' Cadastro completo com sucesso! ', response);
+          let auxResponse: any = response;
+          this.accessLink = info.url + 'your/' + auxResponse.link;
+        },
+        err => {
+          console.log('Error occured: ', err);
+        }
+      );
+
+    } else {
+    }
+  }
+
+
+
+  // Função de pré visualizar as imagens selecionadas
+  preview(files) {
+    this.message = '';
+    if (files.length === 0) {
+      this.imgURL = null;
+      return;
+    }
+
+    const reader = new FileReader();
+    this.imagePath = files;
+    reader.readAsDataURL(files[0]);
+    reader.onload = _event => {
+      this.imgURL = reader.result;
+    };
+
+  }
+
+  // Função para pegar a imagem selecionado
+  onFileChanged(event) {
+    this.selectedFile = event.target.files[0];
+  }
+
+  publicV() {
+    this.gifForm.value.visibility = true;
+  }
+
+  currentTime: number;
+
+  setCurrentTime(data) {
+    //this.currentTime = data.target.currentTime;
+    this.gifForm.value.cutVideo = data.target.duration;
+    console.log(data.target.duration);
   }
 
 }

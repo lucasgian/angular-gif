@@ -1,7 +1,11 @@
 <nav>
   <div class="nav-wrapper">
+    <a mz-button id="btn-sidenav-demo" class="menu blue lighten-1">
+      <i mz-icon style="margin-top: -0.5em;" [align]="'center'" class="icon-background" [icon]="'menu'" [size]="'medium'">
+      </i>
+    </a>
     <a routerLink="/" class="brand-logo">
-      <img src="assets/images/logo-blue.svg" alt="">
+      <img src="assets/images/logo-blue.svg" alt="logo">
     </a>
     <ul class="right hide-on-med-and-down">
       <li>
@@ -23,3 +27,21 @@
     </ul>
   </div>
 </nav>
+
+<mz-sidenav [id]="'sidenav-demo'" [collapseButtonId]="'btn-sidenav-demo'">
+  <mz-sidenav-header>
+      <img src="assets/images/logo-blue.svg" alt="logo"> 
+  </mz-sidenav-header>
+
+  <mz-sidenav-link>
+    <a routerLink="upload">Your Gif</a>
+  </mz-sidenav-link>
+  <mz-sidenav-link>
+    <a routerLink="create">Create</a>
+  </mz-sidenav-link>
+
+  <mz-sidenav-link>
+      <a routerLink="/">Home</a>
+    </mz-sidenav-link>
+
+</mz-sidenav>

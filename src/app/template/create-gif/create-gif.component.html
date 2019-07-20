@@ -12,28 +12,58 @@
             </i>
         </div>
     </div>
+    <div>
+
+        <div *ngIf="imgURL" class="col-sm-12 col-md-12 col-lg-12">
+            <div class="form-group">
+                <label for="InputViewProduct">Adicionar Imagem:</label>
+            </div>
+            
+            <video [autoplay]="true" style="max-height: 210px; max-width: 22em;" class="video">
+                <source [src]="imgURL" type="video/mp4" />
+                Navegador não suporta
+            </video>
+            <div class="row">
+                <form [formGroup]="gifForm" novalidate>
+
+                    <div class="input-field col s6">
+                        <input id="init-video" formControlName="initVideo" type="number" class="validate">
+                        <label for="init-video">Início do vídeo</label>
+                    </div>
+                    <div class="input-field col s6">
+                        <input id="cut-video" formControlName="cutVideo"  type="number" class="validate">
+                        <label for="cut-video">Momento do corte no vídeo</label>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+
+    </div>
     <div class="row">
-        <div id="drop-area" class="file-update col s12">
-            <form class="my-form">
+        <div id="drop-area" class="file-update col s8">
 
-                <div class="row">
-                    <div class="col s4">
-                        <i mz-icon [align]="'center'" class="icon-background red-text" [icon]="'video_library'" [size]="'medium'">
-                        </i>
-                    </div>
-                    <div class="col s8 center-horizontal-vertical">
-                        <input type="file" id="fileElem" multiple accept="image/*" onchange="handleFiles(this.files)">
-                        <label class="btn" for="fileElem">Pegue sua gif</label>
-                    </div>
+            <div class="row">
+                <div class="col s4">
+                    <i mz-icon [align]="'center'" class="icon-background red-text" [icon]="'image_search'" [size]="'medium'">
+                    </i>
                 </div>
-
-            </form>
-            <!-- 
-            <progress id="progress-bar" max=100 value=0></progress>
-            <div id="gallery"></div>
-            -->
+                <div class="col s8 center-horizontal-vertical">
+                    <input type="file" #file class="custom-file-input" style="display: none;" id="inputGroupFile04"
+                        lang="en" (change)="
+                                            onFileChanged($event);
+                                            preview(file.files)
+                                        "
+                        accept="video/*" onchange="$(this).parent().parent().find('.form-control').html($(this).val().split(/[\\|/]/).pop());">
+                    <label class="btn custom-file-label form-control" id="txt-ellipses" for="inputGroupFile04">
+                        Escolha um vídeo
+                    </label>
+                </div>
+            </div>
         </div>
     </div>
+
+
 
     <blockquote style="border-color: black">
         <h5>

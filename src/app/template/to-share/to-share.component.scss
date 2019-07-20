@@ -1,0 +1,41 @@
+.img-to-share {
+    max-height: 210px; 
+    max-width: 22em;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.btn-download {
+    background-color: DodgerBlue;
+    border: none;
+    color: white;
+    padding: 12px 30px;
+    cursor: pointer;
+    font-size: 20px;
+}
+  
+  /* Darker background on mouse-over */
+.btn-download:hover {
+    background-color: RoyalBlue;
+}
+
+.box-grid {
+    padding: 5em;
+}
+
+@media only screen and (max-width: 600px) {
+    .box-grid {
+        top: 5em;
+        bottom: 5em;
+    }
+
+    .btn-download {
+        background-color: DodgerBlue;
+        border: none;
+        color: white;
+        margin-top: 2em;
+        cursor: pointer;
+        font-size: 15px;
+    }
+}

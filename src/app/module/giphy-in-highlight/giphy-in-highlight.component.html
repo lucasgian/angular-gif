@@ -3,24 +3,9 @@
 </blockquote>
 <div class="container">
     <div class="row">
-        <div class="card col s3">
+        <div class="card col s3" *ngFor="let gif of gifs">
             <div class="card-image waves-effect waves-block waves-light">
-                <img class="activator" src="assets/images/elliot.jpg" alt="gif em destaque">
-            </div>
-        </div>
-        <div class="card col s3">
-            <div class="card-image waves-effect waves-block waves-light">
-                <img class="activator" src="assets/images/elliot.jpg" alt="gif em destaque">
-            </div>
-        </div>
-        <div class="card col s3">
-            <div class="card-image waves-effect waves-block waves-light">
-                <img class="activator" src="assets/images/elliot.jpg" alt="gif em destaque">
-            </div>
-        </div>
-        <div class="card col s3">
-            <div class="card-image waves-effect waves-block waves-light">
-                <img class="activator" src="assets/images/elliot.jpg" alt="gif em destaque">
+                <img class="activator" [src]="gif.file_original_still" alt="gif em destaque">
             </div>
         </div>
     </div>

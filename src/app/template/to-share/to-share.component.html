@@ -1,5 +1,50 @@
-<p>to-share works!</p>
-<div *ngIf="imgURL">
-        <img [src]="imgURL[0].file_original_still" style="max-height: 210px;" class="img-thumbnail mx-auto d-block"  />
+<div class="container box-grid">
+        <div *ngIf="imgURL">
+                <img class="img-to-share" [src]="imgURL ? imgURL : 'assets/images/defaultImage.jpg'" alt="gif compartilhada" />
 
+                <!-- Download gif -->
+                <a [href]="imgURL" download>
+                        <button class="btn-download">
+                                Download
+                                <i mz-icon [align]="'right'" [icon]="'cloud_download'" [size]="'small'">
+                                </i>
+                        </button>
+                </a>
+
+        </div>
+
+    
+        <button *ngIf="!imgURL" data-target="modal1" id="btn-access-file" class="btn modal-trigger red accent-2">
+                Usar Chave de acesso
+                <i mz-icon [align]="'right'" [icon]="'vpn_key'" [size]="'small'">
+                </i>
+        </button>
+
+        <!-- Modal Structure -->
+        <div id="modal1" class="modal">
+                <div class="modal-content">
+                        <h4>Informe a chave de acesso</h4>
+                        <div class="row">
+
+                                <div class="row">
+                                        <div class="input-field col s6">
+
+                                                <input (keypress)="validKey($event)" id="key-access" type="text" class="validate">
+                                                <label for="key-access">Chave de acesso</label>
+
+                                        </div>
+                                        <mz-badge *ngIf="!imgURL" [caption]="'Bloqueado por chave'" [badgeClass]="'red'"
+                                                [new]="true">
+                                        </mz-badge>
+                                        <mz-badge *ngIf="imgURL" [caption]="'Liberado!'" [badgeClass]="'green'" [new]="true">
+                                        </mz-badge>
+                                </div>
+
+                        </div>
+
+                </div>
+                <div class="modal-footer">
+                        <a class="modal-close waves-effect waves-green btn-flat">Fechar</a>
+                </div>
+        </div>
 </div>
