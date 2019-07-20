@@ -24,7 +24,7 @@ export class CreateGifComponent implements OnInit {
   ngOnInit() {
     this.buildForm();
     // ************************ Drag and drop ***************** //
-    let dropArea = document.getElementById("drop-area")
+    /*let dropArea = document.getElementById("drop-area")
 
       // Prevent default drag behaviors
       ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
@@ -124,7 +124,7 @@ export class CreateGifComponent implements OnInit {
       formData.append('upload_preset', 'ujpu6gyk')
       formData.append('file', file)
       xhr.send(formData)
-    }
+    } */
   }
 
   // messagem de erro

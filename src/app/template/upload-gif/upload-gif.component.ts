@@ -102,7 +102,7 @@ export class UploadGifComponent implements OnInit {
     if (this.selectedFile !== null && this.selectedFile !== undefined) { //gif é o obrigatorio
       data.file = this.imgURL;
 
-      this.http.post(info.api + '/v1/files/gifs', data).subscribe(
+      this.http.post(info.api + 'v1/files/gifs', data).subscribe(
         response => {
           console.log(' Cadastro completo com sucesso! ', response);
           let auxResponse: any = response;
@@ -159,4 +159,7 @@ export class UploadGifComponent implements OnInit {
     this.selectedFile = event.target.files[0];
   }
 
+  publicV() {
+    this.gifForm.value.visibility = true;
+  }
 }
