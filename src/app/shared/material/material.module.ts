@@ -14,7 +14,8 @@ import {
   MzIconMdiModule,
   MzDatepickerModule,
   MzToastModule,
-  MzBadgeModule
+  MzBadgeModule,
+  MzSidenavModule
 } from 'ngx-materialize';
 
 @NgModule({
@@ -33,7 +34,8 @@ import {
     MzIconMdiModule,
     MzDatepickerModule,
     MzToastModule,
-    MzBadgeModule
+    MzBadgeModule,
+    MzSidenavModule
   ],
   exports: [
     MzButtonModule,
@@ -48,7 +50,8 @@ import {
     MzIconMdiModule,
     MzDatepickerModule,
     MzToastModule,
-    MzBadgeModule
+    MzBadgeModule,
+    MzSidenavModule
   ]
 })
 export class MaterialModule { }

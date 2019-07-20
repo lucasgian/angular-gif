@@ -106,7 +106,7 @@ export class UploadGifComponent implements OnInit {
         response => {
           console.log(' Cadastro completo com sucesso! ', response);
           let auxResponse: any = response;
-          this.accessLink = info.url + '/your/' + auxResponse.link;
+          this.accessLink = info.url + 'your/' + auxResponse.link;
           this.endLoad();
           this.showToast();
         },

@@ -3,9 +3,9 @@
 
 <div class="container">
     <blockquote style="border-color: red" *ngIf="accessLink">
-        <p style="color: red">
-            {{ this.accessLink }}
-        </p>
+        <a [href]="this.accessLink" style="color: red">
+            Link de acesso
+        </a>
     </blockquote>
 
     <div class="row">
@@ -26,8 +26,8 @@
             <div class="form-group">
                 <label for="InputViewProduct">Adicionar Imagem:</label>
             </div>
-            <img src="assets/images/defaultImage.jpg" style="max-height: 210px; max-width: 22em;" class="img-thumbnail img-fluid" *ngIf="!selectedFile" />
-            <img [src]="imgURL" style="max-height: 210px; max-width: 22em;" class="img-thumbnail mx-auto d-block" *ngIf="imgURL" />
+            <img alt="gif compartilhada padrão" src="assets/images/defaultImage.jpg" style="max-height: 210px; max-width: 22em;" class="img-thumbnail img-fluid" *ngIf="!selectedFile" />
+            <img alt="gif compartilhada escolida" [src]="imgURL" style="max-height: 210px; max-width: 22em;" class="img-thumbnail mx-auto d-block" *ngIf="imgURL" />
         </div>
     </div>
     <div class="row">
@@ -123,6 +123,3 @@
     </mz-modal-footer>
 </mz-modal>
 <!-- [end:modal] Definição de chave do acesso -->
-
-
-{{ gifForm.value | json }}

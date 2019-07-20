@@ -1,6 +1,6 @@
 <div class="container box-grid">
         <div *ngIf="imgURL">
-                <img class="img-to-share" [src]="imgURL ? imgURL : 'assets/images/defaultImage.jpg'" />
+                <img class="img-to-share" [src]="imgURL ? imgURL : 'assets/images/defaultImage.jpg'" alt="gif compartilhada" />
 
                 <!-- Download gif -->
                 <a [href]="imgURL" download>

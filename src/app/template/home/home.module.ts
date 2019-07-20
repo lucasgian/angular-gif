@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { GiphyInHighlightComponent } from '../../module/giphy-in-highlight/giphy-in-highlight.component';
 
+import { BasicModulesImportModule } from '../../core/basic-modules-import/basic-modules-import.module';
+
 import { HomeRoutingModule } from './home-routing.module';
 import { HomeComponent } from './home.component';
 
@@ -11,7 +13,8 @@ import { HomeComponent } from './home.component';
   declarations: [ HomeComponent, GiphyInHighlightComponent ],
   imports: [
     CommonModule,
-    HomeRoutingModule
+    HomeRoutingModule,
+    BasicModulesImportModule
   ]
 })
 export class HomeModule { }

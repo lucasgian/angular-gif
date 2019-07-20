@@ -1,10 +1,24 @@
 nav {
     background-color: #3cbbd1;
-  }
-  .nav-wrapper {
-    margin-right: 2em;
-    margin-left: 2em;
+}
+.nav-wrapper {
+  margin-right: 2em;
+  margin-left: 2em;
+}
+.brand-logo {
+  margin-top: 0.2em;
+}
+
+.menu {
+  display: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .menu {
+    display: inline-block;
   }
   .brand-logo {
-    margin-top: 0.2em;
+    margin-left: 0.5em;
   }
+
+}
